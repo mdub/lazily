@@ -1,5 +1,5 @@
+require "lazily/combining"
 require "lazily/filtering"
-require "lazily/zipping"
 require "lazily/proxy"
 
 def Lazily(enumerable)
