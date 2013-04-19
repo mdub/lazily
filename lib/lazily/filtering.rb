@@ -10,10 +10,14 @@ module Lazily
       @generator = generator
     end
 
+    DONE = "Lazily::DONE".to_sym
+
     def each
       return to_enum unless block_given?
       yielder = proc { |x| yield x }
-      @generator.call(yielder)
+      catch DONE do
+        @generator.call(yielder)
+      end
     end
 
   end
@@ -71,7 +75,7 @@ module Lazily
         if n > 0
           each_with_index do |element, index|
             output.call(element)
-            break if index + 1 == n
+            throw Lazily::Filtering::DONE if index + 1 == n
           end
         end
       end
@@ -80,7 +84,7 @@ module Lazily
     def take_while
       Filtering.new do |output|
         each do |element|
-          break unless yield(element)
+          throw Lazily::Filtering::DONE unless yield(element)
           output.call(element)
         end
       end
