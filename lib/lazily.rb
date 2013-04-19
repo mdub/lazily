@@ -1,7 +1,7 @@
 require "lazily/enumerable"
 require "lazily/proxy"
 
-module Enumerable
+module ::Enumerable
 
   def lazily
     Lazily::Proxy.new(self)

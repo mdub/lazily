@@ -24,4 +24,12 @@ module Enumerable
     WithTimeBomb.new(self)
   end
 
+  unless method_defined?(:first)
+    def first
+      each do |first_item|
+        return first_item
+      end
+    end
+  end
+
 end
