@@ -2,6 +2,14 @@ require "lazily/enumerable"
 
 module Lazily
 
+  module Enumerable
+
+    def prefetch(size)
+      Prefetcher.new(self, size)
+    end
+
+  end
+
   class Prefetcher
 
     include Lazily::Enumerable
@@ -28,14 +36,6 @@ module Lazily
         yield buffered_elements[slot]
         i += 1
       end
-    end
-
-  end
-
-  module Enumerable
-
-    def prefetch(size)
-      Prefetcher.new(self, size)
     end
 
   end

@@ -2,7 +2,23 @@ require "lazily/enumerable"
 
 module Lazily
 
-  class Concatenating
+  class << self
+
+    def concat(*enumerables)
+      Concatenator.new(enumerables)
+    end
+
+  end
+
+  module Enumerable
+
+    def concat(*others)
+      Lazily.concat(self, *others)
+    end
+
+  end
+
+  class Concatenator
 
     include Lazily::Enumerable
 
@@ -18,19 +34,4 @@ module Lazily
 
   end
 
-  class << self
-
-    def concat(*enumerables)
-      Concatenating.new(enumerables)
-    end
-
-  end
-
-  module Enumerable
-
-    def concat(*others)
-      Lazily.concat(self, *others)
-    end
-
-  end
 end

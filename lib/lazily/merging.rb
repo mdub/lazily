@@ -2,7 +2,19 @@ require "lazily/enumerable"
 
 module Lazily
 
-  class Merging
+  class << self
+
+    def merge(*enumerables)
+      Merger.new(enumerables)
+    end
+
+    def merge_by(*enumerables, &block)
+      Merger.new(enumerables, &block)
+    end
+
+  end
+
+  class Merger
 
     include Lazily::Enumerable
 
@@ -53,18 +65,6 @@ module Lazily
         @transformer.call(item)
       end
 
-    end
-
-  end
-
-  class << self
-
-    def merge(*enumerables)
-      Merging.new(enumerables)
-    end
-
-    def merge_by(*enumerables, &block)
-      Merging.new(enumerables, &block)
     end
 
   end

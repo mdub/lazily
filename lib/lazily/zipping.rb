@@ -2,7 +2,23 @@ require "lazily/enumerable"
 
 module Lazily
 
-  class Zipping
+  class << self
+
+    def zip(*enumerables)
+      Zipper.new(enumerables)
+    end
+
+  end
+
+  module Enumerable
+
+    def zip(*others)
+      Lazily.zip(self, *others)
+    end
+
+  end
+
+  class Zipper
 
     include Lazily::Enumerable
 
@@ -23,22 +39,6 @@ module Lazily
         break if chunk.all?(&:nil?)
         yield chunk
       end
-    end
-
-  end
-
-  class << self
-
-    def zip(*enumerables)
-      Zipping.new(enumerables)
-    end
-
-  end
-
-  module Enumerable
-
-    def zip(*others)
-      Lazily.zip(self, *others)
     end
 
   end
