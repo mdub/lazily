@@ -1,3 +1,5 @@
+require "lazily/enumerable"
+
 module Lazily
 
   class Merging
