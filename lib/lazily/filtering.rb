@@ -55,7 +55,7 @@ module Lazily
         if n > 0
           each_with_index do |element, index|
             output.call(element)
-            throw Lazily::Filter::DONE if index + 1 == n
+            throw Filter::DONE if index + 1 == n
           end
         end
       end
@@ -64,7 +64,7 @@ module Lazily
     def take_while
       Filter.new do |output|
         each do |element|
-          throw Lazily::Filter::DONE unless yield(element)
+          throw Filter::DONE unless yield(element)
           output.call(element)
         end
       end
