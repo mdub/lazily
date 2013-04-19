@@ -1,4 +1,4 @@
-require "lazily/enumerable"
+require "lazily/filtering"
 require "lazily/proxy"
 
 module ::Enumerable

@@ -111,4 +111,8 @@ module Lazily
 
   end
 
+  module Enumerable
+    include Filtering
+  end
+
 end

@@ -33,3 +33,9 @@ module Enumerable
   end
 
 end
+
+RSpec.configure do |config|
+  unless defined?(::Enumerator)
+    config.filter_run_excluding :needs_enumerators => true
+  end
+end
