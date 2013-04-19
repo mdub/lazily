@@ -5,7 +5,7 @@ module Lazily
   module Enumerable
 
     def collect
-      Filter.new do |output|
+      filter("collect") do |output|
         each do |element|
           output.call yield(element)
         end
@@ -15,7 +15,7 @@ module Lazily
     alias map collect
 
     def select
-      Filter.new do |output|
+      filter("select") do |output|
         each do |element|
           output.call(element) if yield(element)
         end
@@ -25,7 +25,7 @@ module Lazily
     alias find_all select
 
     def reject
-      Filter.new do |output|
+      filter("reject") do |output|
         each do |element|
           output.call(element) unless yield(element)
         end
@@ -33,7 +33,7 @@ module Lazily
     end
 
     def uniq
-      Filter.new do |output|
+      filter("uniq") do |output|
         seen = Set.new
         each do |element|
           output.call(element) if seen.add?(element)
@@ -42,7 +42,7 @@ module Lazily
     end
 
     def uniq_by
-      Filter.new do |output|
+      filter("uniq_by") do |output|
         seen = Set.new
         each do |element|
           output.call(element) if seen.add?(yield element)
@@ -51,7 +51,7 @@ module Lazily
     end
 
     def take(n)
-      Filter.new do |output|
+      filter("take") do |output|
         if n > 0
           each_with_index do |element, index|
             output.call(element)
@@ -62,7 +62,7 @@ module Lazily
     end
 
     def take_while
-      Filter.new do |output|
+      filter("take_while") do |output|
         each do |element|
           throw Filter::DONE unless yield(element)
           output.call(element)
@@ -71,7 +71,7 @@ module Lazily
     end
 
     def drop(n)
-      Filter.new do |output|
+      filter("drop") do |output|
         each_with_index do |element, index|
           next if index < n
           output.call(element)
@@ -80,7 +80,7 @@ module Lazily
     end
 
     def drop_while
-      Filter.new do |output|
+      filter("drop_while") do |output|
         take = false
         each do |element|
           take ||= !yield(element)
@@ -93,13 +93,21 @@ module Lazily
       drop(n).first
     end
 
+    private
+
+    def filter(method, &block)
+      Filter.new(self, method, &block)
+    end
+
   end
 
   class Filter
 
     include Lazily::Enumerable
 
-    def initialize(&generator)
+    def initialize(source, method, &generator)
+      @source = source
+      @method = method
       @generator = generator
     end
 
@@ -111,6 +119,10 @@ module Lazily
       catch DONE do
         @generator.call(yielder)
       end
+    end
+
+    def inspect
+      "#<#{self.class}: #{@method} #{@source.inspect}>"
     end
 
   end

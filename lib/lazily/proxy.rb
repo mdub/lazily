@@ -27,6 +27,10 @@ module Lazily
       @source.each(&block)
     end
 
+    def inspect
+      "#<#{self.class}: #{@source.inspect}>"
+    end
+
   end
 
 end
