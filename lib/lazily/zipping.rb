@@ -2,7 +2,7 @@ require "lazily/enumerable"
 
 module Lazily
 
-  class LazyZipper
+  class Zipping
 
     include Lazily::Enumerable
 
@@ -30,7 +30,7 @@ module Lazily
   class << self
 
     def zip(*enumerables)
-      LazyZipper.new(enumerables)
+      Zipping.new(enumerables)
     end
 
   end

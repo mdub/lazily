@@ -2,26 +2,26 @@ require "lazily/enumerable"
 
 module Lazily
 
-  module Filtering
+  class Filtering
 
-    class LazyFilter
+    include Lazily::Enumerable
 
-      include Lazily::Enumerable
-
-      def initialize(&generator)
-        @generator = generator
-      end
-
-      def each
-        return to_enum unless block_given?
-        yielder = proc { |x| yield x }
-        @generator.call(yielder)
-      end
-
+    def initialize(&generator)
+      @generator = generator
     end
 
+    def each
+      return to_enum unless block_given?
+      yielder = proc { |x| yield x }
+      @generator.call(yielder)
+    end
+
+  end
+
+  module Enumerable
+
     def collect
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         each do |element|
           output.call yield(element)
         end
@@ -31,7 +31,7 @@ module Lazily
     alias map collect
 
     def select
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         each do |element|
           output.call(element) if yield(element)
         end
@@ -41,7 +41,7 @@ module Lazily
     alias find_all select
 
     def reject
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         each do |element|
           output.call(element) unless yield(element)
         end
@@ -49,7 +49,7 @@ module Lazily
     end
 
     def uniq
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         seen = Set.new
         each do |element|
           output.call(element) if seen.add?(element)
@@ -58,7 +58,7 @@ module Lazily
     end
 
     def uniq_by
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         seen = Set.new
         each do |element|
           output.call(element) if seen.add?(yield element)
@@ -67,7 +67,7 @@ module Lazily
     end
 
     def take(n)
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         if n > 0
           each_with_index do |element, index|
             output.call(element)
@@ -78,7 +78,7 @@ module Lazily
     end
 
     def take_while
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         each do |element|
           break unless yield(element)
           output.call(element)
@@ -87,7 +87,7 @@ module Lazily
     end
 
     def drop(n)
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         each_with_index do |element, index|
           next if index < n
           output.call(element)
@@ -96,7 +96,7 @@ module Lazily
     end
 
     def drop_while
-      LazyFilter.new do |output|
+      Filtering.new do |output|
         take = false
         each do |element|
           take ||= !yield(element)
@@ -109,10 +109,6 @@ module Lazily
       drop(n).first
     end
 
-  end
-
-  module Enumerable
-    include Filtering
   end
 
 end
