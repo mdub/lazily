@@ -8,6 +8,10 @@ module Lazily
       true
     end
 
+    def lazily
+      self
+    end
+
   end
 
 end
