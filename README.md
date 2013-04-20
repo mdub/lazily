@@ -33,7 +33,7 @@ Consider the following code, which squares a bunch of numbers, then takes the fi
     10
     => [1, 4, 9, 16]
 
-See how it printed all the numbers from 1 to 10, indicating that the block given to `collect` was run ten times. We can do the same thing using lazily, like this:
+See how it printed all the numbers from 1 to 10, indicating that the block given to `collect` was run ten times. We can do the same thing lazily, like this:
 
     >> (1..10).lazily.collect { |x| p x; x*x }.take(4).to_a
     1
@@ -65,6 +65,8 @@ By combining two or more lazy operations, you can create an efficient "pipeline"
     companies.to_a              #=> ["Disney"]
 
 Because the steps in the pipeline operate in parallel, without creation of intermediate collections (Arrays), you can efficiently operate on large (or even infinite) Enumerable collections.
+
+This is analogous to a Unix shell pipeline, though of course here we're talking about streams of objects, rather than streams of text.
 
 Lazy multi-threaded processing
 ------------------------------
