@@ -6,11 +6,12 @@ module Lazily
 
     def in_threads(max_threads, &block)
       collect do |item|
-        Thread.new { block.call(item) }
+        Thread.new(item, &block)
       end.prefetch(max_threads - 1).collect do |thread|
         thread.join.value
       end
     end
+
   end
 
 end
