@@ -89,6 +89,13 @@ module Lazily
       end
     end
 
+    # TODO:
+    #   - chunk
+    #   - cycle?
+    #   - flat_map/collect_concat
+    #   - grep
+    #   - slice_before
+
     def [](n)
       drop(n).first
     end
