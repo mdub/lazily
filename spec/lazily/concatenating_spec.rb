@@ -4,9 +4,6 @@ describe Lazily, "concatenating" do
 
   describe ".concat" do
 
-    let(:array1) { [1,5,3] }
-    let(:array2) { [2,9,4] }
-
     it "concatenates multiple Enumerables" do
       result = Lazily.concat([1,5,3], [2,9,4])
       result.to_a.should == [1,5,3,2,9,4]
@@ -20,9 +17,6 @@ describe Lazily, "concatenating" do
   end
 
   describe "#concat" do
-
-    let(:array1) { [1,5,3] }
-    let(:array2) { [2,9,4] }
 
     it "concatenates multiple Enumerables" do
       result = [1,5,3].lazily.concat([2,9,4])
