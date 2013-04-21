@@ -52,13 +52,13 @@ end
 if array.respond_to?(:lazy)
 
   benchmark "ruby2 Enumerable#lazy", @control do
-    array.lazy.select { |x| x.even? }.lazy.collect { |x| x*x }
+    array.lazy.select { |x| x.even? }.collect { |x| x*x }
   end
 
 elsif can_require?("backports/2.0.0/enumerable")
 
   benchmark "backports Enumerable#lazy", @control do
-    array.lazy.select { |x| x.even? }.lazy.collect { |x| x*x }
+    array.lazy.select { |x| x.even? }.collect { |x| x*x }
   end
 
 end
