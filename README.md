@@ -75,11 +75,12 @@ Lazy multi-threaded processing
 
 The `#in_threads` method is a multi-threaded version of `#collect`, allowing multiple elements of a collection to be processed in parallel.  It requires a numeric argument specifying the maximum number of Threads to use. 
 
-    start = Time.now
-    [5,6,7,8].lazily.in_threads(4) do |delay|
-      sleep(delay)
-    end.to_a
-    (Time.now - start).to_i     #=> 8
+    Benchmark.realtime do
+      [1,2,3,4].lazily.in_threads(10) do |x|
+        sleep 1
+        x * 2
+      end.to_a                  #=> [2,4,6,8]
+    end.to_i                    #=> 1
 
 Outputs will be yielded in the expected order, making it a drop-in replacement for `#collect`. 
 
@@ -123,7 +124,7 @@ There are numerous similar implementations of lazy operations on Enumerables.
 
 ### Lazily vs. Enumerating
 
-Lazily supercedes "[Enumerating](http://github.com/mdub/enumerating)".  Whereas Enumerating mixing lazy operations directly into `Enumerable`, Lazily does not.  Instead, it implements an API modelled on Ruby 2.0's `Enumerable#lazy`.
+Lazily supercedes "[Enumerating](http://github.com/mdub/enumerating)".  Whereas Enumerating mixed lazy operations directly onto `Enumerable`, Lazily does not.  Instead, it implements an API modelled on Ruby 2.0's `Enumerable#lazy`.
 
 ### Lazily vs. Ruby 2.0
 
