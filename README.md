@@ -48,19 +48,22 @@ Lazy pipelines
 
 By combining two or more lazy operations, you can create an efficient "pipeline", e.g.
 
+    User.to_enum(:find_each).lazily.select do |u| 
+      u.first_name[0] == u.last_name[0]
+    end.collect(&:company).uniq.to_a
+
+In case you missed it:
+
     # enumerate all users
     users = User.to_enum(:find_each)
 
-    # be lazy
-    users = users.lazily
-
-    # where first and last names start with the same letter
-    users = users.select { |u| u.first_name[0] == u.last_name[0] }
+    # lazily select those matching "X... X..." (e.g. "Mickey Mouse")
+    users = users.lazily.select { |u| u.first_name[0] == u.last_name[0] }
 
     # grab their company (weeding out duplicates)
     companies = users.collect(&:company).uniq
 
-    # resolve
+    # force resolution
     companies.to_a              #=> ["Disney"]
 
 Because the steps in the pipeline operate in parallel, without creation of intermediate collections (Arrays), you can efficiently operate on large (or even infinite) Enumerable collections.
