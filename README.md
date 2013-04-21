@@ -11,12 +11,11 @@ Lazily provides various "lazy" Enumerable operations, similar to:
 Lazy filtering and transforming
 -------------------------------
 
-Lazy evaluation is triggered using `Enumerable#lazily`, or the `Lazily` method:
+Lazy evaluation is triggered using `Enumerable#lazily`:
 
     [1,2,3].lazily              #=> #<Lazily::Proxy: [1, 2, 3]>
-    Lazily([1,2,3])             #=> #<Lazily::Proxy: [1, 2, 3]>
 
-The resulting "Lazy::Proxy" object implements lazy forms of various Enumerable methods.  Rather than returning Arrays, the lazy forms return a "result proxy" object which is itself Enumerable, and which generates results incrementally, on demand.
+The resulting object implements lazy versions of various Enumerable methods.  Rather than returning Arrays, the lazy forms return new Enumerable objects, which generate results incrementally, on demand.
 
 Consider the following code, which squares a bunch of numbers, then takes the first 4 results.
 
