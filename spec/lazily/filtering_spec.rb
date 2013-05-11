@@ -53,8 +53,8 @@ describe Lazily, "filter" do
   describe "#uniq_by" do
 
     it "uses the block to derive identity" do
-      @array = %w(A1 A2 B1 A3 C1 B2 C2)
-      @array.lazily.uniq_by { |s| s[0,1] }.to_a.should == %w(A1 B1 C1)
+      array = %w(A1 A2 B1 A3 C1 B2 C2)
+      array.lazily.uniq_by { |s| s[0,1] }.to_a.should == %w(A1 B1 C1)
     end
 
   end
@@ -62,8 +62,8 @@ describe Lazily, "filter" do
   describe "#take" do
 
     it "includes the specified number" do
-      @array = [1,2,3,4]
-      @array.lazily.take(3).to_a.should == [1,2,3]
+      array = [1,2,3,4]
+      array.lazily.take(3).to_a.should == [1,2,3]
     end
 
     it "is lazy" do
@@ -79,8 +79,8 @@ describe Lazily, "filter" do
   describe "#take_while" do
 
     it "takees elements as long as the predicate is true" do
-      @array = [2,4,6,3]
-      @array.lazily.take_while(&:even?).to_a.should == [2,4,6]
+      array = [2,4,6,3]
+      array.lazily.take_while(&:even?).to_a.should == [2,4,6]
     end
 
     it "is lazy" do
@@ -92,8 +92,8 @@ describe Lazily, "filter" do
   describe "#drop" do
 
     it "excludes the specified number" do
-      @array = [1,2,3,4]
-      @array.lazily.drop(2).to_a.should == [3,4]
+      array = [1,2,3,4]
+      array.lazily.drop(2).to_a.should == [3,4]
     end
 
     it "is lazy" do
@@ -105,8 +105,8 @@ describe Lazily, "filter" do
   describe "#drop_while" do
 
     it "drops elements as long as the predicate is true" do
-      @array = [2,4,6,3,4]
-      @array.lazily.drop_while(&:even?).to_a.should == [3,4]
+      array = [2,4,6,3,4]
+      array.lazily.drop_while(&:even?).to_a.should == [3,4]
     end
 
     it "is lazy" do
@@ -117,16 +117,16 @@ describe Lazily, "filter" do
 
   describe "#[]" do
 
-    before do
-      @evens = [1,2,3,4,5].lazily.collect { |x| x * 2 }
+    let(:evens) do
+      (1..999).lazily.collect { |x| x * 2 }
     end
 
     it "finds the specified element" do
-      @evens.lazily[2].should == 6
+      evens.lazily[2].should == 6
     end
 
     it "is lazy" do
-      @evens.with_time_bomb.lazily[3].should == 8
+      evens.with_time_bomb.lazily[3].should == 8
     end
 
   end
