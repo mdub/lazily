@@ -29,12 +29,12 @@ def benchmark(description, control_result = nil)
   measure { yield.to_a }
   puts ""
   unless control_result.nil? || result == control_result
-    raise "unexpected result from '#{description}'"
+    raise "unexpected result from '#{description}': #{result.inspect}"
   end
   result
 end
 
-@control = benchmark "conventional (eager)" do
+@control = benchmark "eager" do
   array.select { |x| x.even? }.collect { |x| x*x }
 end
 
@@ -47,13 +47,13 @@ end
 
 if array.respond_to?(:lazy)
 
-  benchmark "ruby2 Enumerable#lazy", @control do
+  benchmark "ruby2", @control do
     array.lazy.select { |x| x.even? }.collect { |x| x*x }
   end
 
 elsif can_require?("backports/2.0.0")
 
-  benchmark "backports Enumerable#lazy", @control do
+  benchmark "backports", @control do
     array.lazy.select { |x| x.even? }.collect { |x| x*x }
   end
 
@@ -61,7 +61,7 @@ end
 
 if can_require? "facets"
 
-  benchmark "facets Enumerable#defer", @control do
+  benchmark "facets", @control do
     array.defer.select { |x| x.even? }.collect { |x| x*x }
   end
 
