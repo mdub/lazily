@@ -17,11 +17,7 @@ printf "%12s", "to_a"
 puts ""
 
 def measure(&block)
-  begin
-    printf "%12.5f", Benchmark.realtime(&block)
-  rescue
-    printf "%12s", "n/a"
-  end
+  printf "%12.5f", Benchmark.realtime(&block)
 end
 
 def benchmark(description, control_result = nil)
