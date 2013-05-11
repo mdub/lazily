@@ -102,7 +102,6 @@ module Lazily
 
     # TODO:
     #   - chunk
-    #   - cycle?
     #   - flat_map/collect_concat
     #   - slice_before
 
