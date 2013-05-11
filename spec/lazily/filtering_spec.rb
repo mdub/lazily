@@ -115,6 +115,24 @@ describe Lazily, "filter" do
 
   end
 
+  describe "#grep" do
+
+    let(:fruits) { %w(apple banana pear orange) }
+
+    it "returns elements matching a pattern" do
+      fruits.lazily.grep(/e$/).to_a.should == %w(apple orange)
+    end
+
+    it "applies the associated block" do
+      fruits.lazily.grep(/e$/, &:capitalize).to_a.should == %w(Apple Orange)
+    end
+
+    it "is lazy" do
+      fruits.with_time_bomb.lazily.grep(/p/).take(1).to_a.should == %w(apple)
+    end
+
+  end
+
   describe "#[]" do
 
     let(:evens) do

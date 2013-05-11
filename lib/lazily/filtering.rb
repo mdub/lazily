@@ -89,11 +89,21 @@ module Lazily
       end
     end
 
+    def grep(pattern, &block)
+      filter("grep") do |output|
+        each do |element|
+          if pattern === element
+            element = block.call(element) if block
+            output.call(element)
+          end
+        end
+      end
+    end
+
     # TODO:
     #   - chunk
     #   - cycle?
     #   - flat_map/collect_concat
-    #   - grep
     #   - slice_before
 
     def [](n)
