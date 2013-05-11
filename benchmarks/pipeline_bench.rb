@@ -55,7 +55,7 @@ if array.respond_to?(:lazy)
     array.lazy.select { |x| x.even? }.collect { |x| x*x }
   end
 
-elsif can_require?("backports/2.0.0/enumerable")
+elsif can_require?("backports/2.0.0")
 
   benchmark "backports Enumerable#lazy", @control do
     array.lazy.select { |x| x.even? }.collect { |x| x*x }
