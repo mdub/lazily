@@ -104,17 +104,17 @@ Lazily also provides some interesting ways to combine several Enumerable collect
     Lazily.concat(array1, array2)
                                            #=> [1,3,6,2,4,7]
 
-`Lazily.merging` merges multiple collections, preserving sort-order.  The inputs are assumed to be sorted already.
+`Lazily.merge` merges multiple collections, preserving sort-order.  The inputs are assumed to be sorted already.
 
     array1 = [1,4,5]
     array2 = [2,3,6]
-    Lazily.merging(array1, array2)          #=> [1,2,3,4,5,6]
+    Lazily.merge(array1, array2)          #=> [1,2,3,4,5,6]
 
-Variant `Lazily.merging_by` uses a block to determine sort-order.
+Variant `Lazily.merge_by` uses a block to determine sort-order.
 
     array1 = %w(a dd cccc)
     array2 = %w(eee bbbbb)
-    Enumerating.merging_by(array1, array2) { |x| x.length }
+    Enumerating.merge_by(array1, array2) { |x| x.length }
                                             #=> %w(a dd eee cccc bbbbb)
 
 Same but different
