@@ -104,17 +104,20 @@ module Lazily
     #   - chunk
     #   - slice_before
 
-    def flat_map
-      filter("flat_map") do |output|
+    def flatten
+      filter("flatten") do |output|
         each do |element|
-          result = yield(element)
-          if result.respond_to?(:each)
-            result.each(&output)
+          if element.respond_to?(:each)
+            element.each(&output)
           else
-            output.call(result)
+            output.call(element)
           end
         end
       end
+    end
+
+    def flat_map(&block)
+      map(&block).flatten
     end
 
     alias collect_concat flat_map
