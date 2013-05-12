@@ -2,7 +2,7 @@ require "lazily"
 
 class NotLazyEnough < StandardError; end
 
-class WithTimeBomb
+class Ecetera
 
   include Enumerable
 
@@ -20,8 +20,8 @@ end
 module Enumerable
 
   # extend an Enumerable to throw an exception after last element
-  def with_time_bomb
-    WithTimeBomb.new(self)
+  def ecetera
+    Ecetera.new(self)
   end
 
   unless method_defined?(:first)

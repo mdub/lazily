@@ -37,7 +37,7 @@ describe Lazily do
     end
 
     it "is lazy" do
-      source.with_time_bomb.lazily.prefetch(2).should be_lazy
+      source.ecetera.lazily.prefetch(2).should be_lazy
     end
 
     it "pre-computes the specified number of elements" do

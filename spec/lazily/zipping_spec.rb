@@ -14,7 +14,7 @@ describe Lazily, "zipping", :needs_enumerators => true do
     end
 
     it "is lazy" do
-      Lazily.zip(array1, array2.with_time_bomb).should be_lazy
+      Lazily.zip(array1, array2.ecetera).should be_lazy
     end
 
   end
@@ -27,7 +27,7 @@ describe Lazily, "zipping", :needs_enumerators => true do
     end
 
     it "is lazy" do
-      array1.lazily.zip(array2.with_time_bomb).should be_lazy
+      array1.lazily.zip(array2.ecetera).should be_lazy
     end
 
   end

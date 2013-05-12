@@ -9,7 +9,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2,3].with_time_bomb.lazily.collect { |x| x * 2 }.should be_lazy
+      [1,2,3].ecetera.lazily.collect { |x| x * 2 }.should be_lazy
     end
 
   end
@@ -21,7 +21,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      (1..6).with_time_bomb.lazily.select { |x| x%2 == 0 }.should be_lazy
+      (1..6).ecetera.lazily.select { |x| x%2 == 0 }.should be_lazy
     end
 
   end
@@ -33,7 +33,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      (1..6).with_time_bomb.lazily.reject { |x| x%2 == 0 }.should be_lazy
+      (1..6).ecetera.lazily.reject { |x| x%2 == 0 }.should be_lazy
     end
 
   end
@@ -45,7 +45,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2,3].with_time_bomb.lazily.uniq.should be_lazy
+      [1,2,3].ecetera.lazily.uniq.should be_lazy
     end
 
     context "with a block" do
@@ -67,11 +67,11 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2].with_time_bomb.lazily.take(2).should be_lazy
+      [1,2].ecetera.lazily.take(2).should be_lazy
     end
 
     it "copes with 0" do
-      [].with_time_bomb.lazily.take(0).to_a.should == []
+      [].ecetera.lazily.take(0).to_a.should == []
     end
 
   end
@@ -84,7 +84,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [2,3].with_time_bomb.lazily.take_while(&:even?).should be_lazy
+      [2,3].ecetera.lazily.take_while(&:even?).should be_lazy
     end
 
   end
@@ -97,7 +97,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2,3,4].with_time_bomb.lazily.drop(2).lazily.take(1).to_a.should == [3]
+      [1,2,3,4].ecetera.lazily.drop(2).lazily.take(1).to_a.should == [3]
     end
 
   end
@@ -110,7 +110,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [2,3].with_time_bomb.lazily.drop_while(&:even?).lazily.should be_lazy
+      [2,3].ecetera.lazily.drop_while(&:even?).lazily.should be_lazy
     end
 
   end
@@ -128,7 +128,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      fruits.with_time_bomb.lazily.grep(/p/).should be_lazy
+      fruits.ecetera.lazily.grep(/p/).should be_lazy
     end
 
   end
@@ -155,7 +155,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [array1.with_time_bomb, array2].lazily.flatten.should be_lazy
+      [array1.ecetera, array2].lazily.flatten.should be_lazy
     end
 
   end
@@ -177,7 +177,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      array.with_time_bomb.lazily.flat_map { |n| [n] * n }.should be_lazy
+      array.ecetera.lazily.flat_map { |n| [n] * n }.should be_lazy
     end
 
   end
@@ -203,7 +203,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      words.with_time_bomb.lazily.slice_before(/^[A-Z]/).should be_lazy
+      words.ecetera.lazily.slice_before(/^[A-Z]/).should be_lazy
     end
 
   end
@@ -220,7 +220,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [3,1,4,1,5,9,2,6].with_time_bomb.lazily.chunk(&:even?).should be_lazy
+      [3,1,4,1,5,9,2,6].ecetera.lazily.chunk(&:even?).should be_lazy
     end
 
   end
@@ -236,7 +236,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      evens.with_time_bomb.lazily[3].should == 8
+      evens.ecetera.lazily[3].should == 8
     end
 
   end
