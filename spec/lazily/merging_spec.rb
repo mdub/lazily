@@ -16,7 +16,7 @@ describe Lazily, :needs_enumerators => true do
       enum1 = [1,3,6]
       enum2 = [2,4,7].with_time_bomb
       merged = Lazily.merge(enum1, enum2)
-      merged.take(4).to_a.should == [1,2,3,4]
+      merged.should be_lazy
     end
 
   end

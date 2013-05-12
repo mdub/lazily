@@ -13,7 +13,7 @@ describe Lazily, "threading" do
     end
 
     it "is lazy" do
-      [1,2,3].with_time_bomb.lazily.in_threads(2) { |x| x * 2 }.first.should == 2
+      [1,2,3].with_time_bomb.lazily.in_threads(2) { |x| x * 2 }.should be_lazy
     end
 
     def round(n, accuracy = 0.02)

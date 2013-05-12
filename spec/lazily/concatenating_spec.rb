@@ -2,16 +2,18 @@ require "spec_helper"
 
 describe Lazily, "concatenating" do
 
+  let(:array1) { [1,5,3] }
+  let(:array2) { [2,9,4] }
+
   describe ".concat" do
 
     it "concatenates multiple Enumerables" do
-      result = Lazily.concat([1,5,3], [2,9,4])
-      result.to_a.should == [1,5,3,2,9,4]
+      result = Lazily.concat(array1, array2)
+      result.to_a.should == array1 + array2
     end
 
     it "is lazy" do
-      result = Lazily.concat([3,4], [1,2].with_time_bomb)
-      result.take(3).to_a.should == [3,4,1]
+      Lazily.concat(array1, array2.with_time_bomb).should be_lazy
     end
 
   end
@@ -19,13 +21,13 @@ describe Lazily, "concatenating" do
   describe "#concat" do
 
     it "concatenates multiple Enumerables" do
-      result = [1,5,3].lazily.concat([2,9,4])
-      result.to_a.should == [1,5,3,2,9,4]
+      result = array1.lazily.concat(array2)
+      result.to_a.should == array1 + array2
     end
 
     it "is lazy" do
-      result = [3,4].lazily.concat([1,2].with_time_bomb)
-      result.take(3).to_a.should == [3,4,1]
+      result = array1.lazily.concat(array2.with_time_bomb)
+      result.take(3).to_a.should == (array1 + array2).take(3)
     end
 
   end

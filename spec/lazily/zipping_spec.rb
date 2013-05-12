@@ -10,12 +10,11 @@ describe Lazily, "zipping", :needs_enumerators => true do
 
     it "zips together multiple Enumerables" do
       zip = Lazily.zip(array1, array2, array3)
-      zip.to_a.should == [[1,2,5], [3,4,8], [6,7,nil]]
+      zip.to_a.should == array1.zip(array2, array3)
     end
 
     it "is lazy" do
-      zip = Lazily.zip(%w(a b c), [1,2].with_time_bomb)
-      zip.take(2).to_a.should == [["a", 1], ["b", 2]]
+      Lazily.zip(array1, array2.with_time_bomb).should be_lazy
     end
 
   end
@@ -24,12 +23,11 @@ describe Lazily, "zipping", :needs_enumerators => true do
 
     it "zips an Enumerable with multiple others" do
       zip = array1.lazily.zip(array2, array3)
-      zip.to_a.should == [[1,2,5], [3,4,8], [6,7,nil]]
+      zip.to_a.should == array1.zip(array2, array3)
     end
 
     it "is lazy" do
-      zip = %w(a b c).lazily.zip([1,2].with_time_bomb)
-      zip.take(2).to_a.should == [["a", 1], ["b", 2]]
+      array1.lazily.zip(array2.with_time_bomb).should be_lazy
     end
 
   end

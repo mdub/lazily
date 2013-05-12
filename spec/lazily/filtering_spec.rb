@@ -9,7 +9,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2,3].with_time_bomb.lazily.collect { |x| x * 2 }.first.should == 2
+      [1,2,3].with_time_bomb.lazily.collect { |x| x * 2 }.should be_lazy
     end
 
   end
@@ -21,7 +21,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      (1..6).with_time_bomb.lazily.select { |x| x%2 == 0 }.first == 2
+      (1..6).with_time_bomb.lazily.select { |x| x%2 == 0 }.should be_lazy
     end
 
   end
@@ -33,7 +33,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      (1..6).with_time_bomb.lazily.reject { |x| x%2 == 0 }.first == 1
+      (1..6).with_time_bomb.lazily.reject { |x| x%2 == 0 }.should be_lazy
     end
 
   end
@@ -45,7 +45,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2,3].with_time_bomb.lazily.uniq.first.should == 1
+      [1,2,3].with_time_bomb.lazily.uniq.should be_lazy
     end
 
   end
@@ -67,7 +67,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [1,2].with_time_bomb.lazily.take(2).to_a.should == [1,2]
+      [1,2].with_time_bomb.lazily.take(2).should be_lazy
     end
 
     it "copes with 0" do
@@ -84,7 +84,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [2,3].with_time_bomb.lazily.take_while(&:even?).to_a.should == [2]
+      [2,3].with_time_bomb.lazily.take_while(&:even?).should be_lazy
     end
 
   end
@@ -110,7 +110,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [2,3].with_time_bomb.lazily.drop_while(&:even?).lazily.take(1).to_a.should == [3]
+      [2,3].with_time_bomb.lazily.drop_while(&:even?).lazily.should be_lazy
     end
 
   end
@@ -128,7 +128,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      fruits.with_time_bomb.lazily.grep(/p/).take(1).to_a.should == %w(apple)
+      fruits.with_time_bomb.lazily.grep(/p/).should be_lazy
     end
 
   end
