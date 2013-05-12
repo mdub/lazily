@@ -133,6 +133,33 @@ describe Lazily, "filter" do
 
   end
 
+  describe "#flatten" do
+
+    let(:array1) { [1,2,3] }
+    let(:array2) { [4,5,6] }
+
+    it "flattens" do
+      [[1,2], [3,4]].lazily.flatten.to_a.should == [1,2,3,4]
+    end
+
+    it "handles non-Enumerable elements" do
+      [1,2].lazily.flatten.to_a.should == [1,2]
+    end
+
+    it "goes one level deep (by default)" do
+      [[1,2], [[3]]].lazily.flatten.to_a.should == [1,2,[3]]
+    end
+
+    it "allows the depth to be specified" do
+      [[1], [[2]], [[[3]]]].lazily.flatten(2).to_a.should == [1, 2, [3]]
+    end
+
+    it "is lazy" do
+      [array1.with_time_bomb, array2].lazily.flatten.should be_lazy
+    end
+
+  end
+
   describe "#flat_map" do
 
     let(:array) { [1,2,3] }

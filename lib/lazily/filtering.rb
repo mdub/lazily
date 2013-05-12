@@ -104,11 +104,11 @@ module Lazily
     #   - chunk
     #   - slice_before
 
-    def flatten
+    def flatten(level = 1)
       filter("flatten") do |output|
         each do |element|
-          if element.respond_to?(:each)
-            element.each(&output)
+          if level > 0 && element.respond_to?(:each)
+            element.flatten(level - 1).each(&output)
           else
             output.call(element)
           end
