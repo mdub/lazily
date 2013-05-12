@@ -182,45 +182,53 @@ describe Lazily, "filter" do
 
   end
 
-  describe "#slice_before" do
+  if ::Enumerable.method_defined?(:slice_before)
 
-    let(:words) do
-      %w(One two three Two two three)
-    end
+    describe "#slice_before" do
 
-    it "can slice with a pattern" do
-      words.lazily.slice_before(/^[A-Z]/).to_a.should == [
-        %w(One two three),
-        %w(Two two three)
-      ]
-    end
+      let(:words) do
+        %w(One two three Two two three)
+      end
 
-    it "can slice with a block" do
-      words.lazily.slice_before { |w| w =~ /^[A-Z]/ }.to_a.should == [
-        %w(One two three),
-        %w(Two two three)
-      ]
-    end
+      it "can slice with a pattern" do
+        words.lazily.slice_before(/^[A-Z]/).to_a.should == [
+          %w(One two three),
+          %w(Two two three)
+        ]
+      end
 
-    it "is lazy" do
-      words.ecetera.lazily.slice_before(/^[A-Z]/).should be_lazy
+      it "can slice with a block" do
+        words.lazily.slice_before { |w| w =~ /^[A-Z]/ }.to_a.should == [
+          %w(One two three),
+          %w(Two two three)
+        ]
+      end
+
+      it "is lazy" do
+        words.ecetera.lazily.slice_before(/^[A-Z]/).should be_lazy
+      end
+
     end
 
   end
 
-  describe "#chunk" do
+  if ::Enumerable.method_defined?(:chunk)
 
-    it "groups elements by the result of a block" do
-      [3,1,4,1,5,9,2,6].lazily.chunk(&:even?).to_a.should == [
-        [false, [3, 1]],
-        [true, [4]],
-        [false, [1, 5, 9]],
-        [true, [2, 6]],
-      ]
-    end
+    describe "#chunk" do
 
-    it "is lazy" do
-      [3,1,4,1,5,9,2,6].ecetera.lazily.chunk(&:even?).should be_lazy
+      it "groups elements by the result of a block" do
+        [3,1,4,1,5,9,2,6].lazily.chunk(&:even?).to_a.should == [
+          [false, [3, 1]],
+          [true, [4]],
+          [false, [1, 5, 9]],
+          [true, [2, 6]],
+        ]
+      end
+
+      it "is lazy" do
+        [3,1,4,1,5,9,2,6].ecetera.lazily.chunk(&:even?).should be_lazy
+      end
+
     end
 
   end

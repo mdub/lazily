@@ -198,12 +198,20 @@ module Lazily
       end
     end
 
-    def slice_before(*args, &block)
-      super.lazily
+    if ::Enumerable.method_defined?(:slice_before)
+
+      def slice_before(*args, &block)
+        super.lazily
+      end
+
     end
 
-    def chunk(*args, &block)
-      super.lazily
+    if ::Enumerable.method_defined?(:chunk)
+
+      def chunk(*args, &block)
+        super.lazily
+      end
+
     end
 
     # @return the nth element
