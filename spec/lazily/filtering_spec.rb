@@ -208,6 +208,23 @@ describe Lazily, "filter" do
 
   end
 
+  describe "#chunk" do
+
+    it "groups elements by the result of a block" do
+      [3,1,4,1,5,9,2,6].lazily.chunk(&:even?).to_a.should == [
+        [false, [3, 1]],
+        [true, [4]],
+        [false, [1, 5, 9]],
+        [true, [2, 6]],
+      ]
+    end
+
+    it "is lazy" do
+      [3,1,4,1,5,9,2,6].lazily.chunk(&:even?).should be_lazy
+    end
+
+  end
+
   describe "#[]" do
 
     let(:evens) do

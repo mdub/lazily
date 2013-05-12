@@ -188,6 +188,10 @@ module Lazily
       super.lazily
     end
 
+    def chunk(*args, &block)
+      super.lazily
+    end
+
     # @return the nth element
     #
     def [](n)
@@ -195,7 +199,6 @@ module Lazily
     end
 
     # TODO:
-    #   - chunk
     #   - compact
 
     private
