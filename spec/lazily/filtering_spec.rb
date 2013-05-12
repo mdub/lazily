@@ -203,7 +203,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      words.lazily.slice_before(/^[A-Z]/).should be_lazy
+      words.with_time_bomb.lazily.slice_before(/^[A-Z]/).should be_lazy
     end
 
   end
@@ -220,7 +220,7 @@ describe Lazily, "filter" do
     end
 
     it "is lazy" do
-      [3,1,4,1,5,9,2,6].lazily.chunk(&:even?).should be_lazy
+      [3,1,4,1,5,9,2,6].with_time_bomb.lazily.chunk(&:even?).should be_lazy
     end
 
   end
