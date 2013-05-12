@@ -184,6 +184,20 @@ module Lazily
 
     alias collect_concat flat_map
 
+    # Ignore nil values.
+    #
+    # @return [Enumerable] the elements that are not nil
+    #
+    # @see ::Array#compact
+    #
+    def compact
+      filter("compact") do |output|
+        each do |element|
+          output.call(element) unless element.nil?
+        end
+      end
+    end
+
     def slice_before(*args, &block)
       super.lazily
     end
@@ -197,9 +211,6 @@ module Lazily
     def [](n)
       drop(n).first
     end
-
-    # TODO:
-    #   - compact
 
     private
 

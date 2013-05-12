@@ -225,6 +225,18 @@ describe Lazily, "filter" do
 
   end
 
+  describe "#compact" do
+
+    it "omits nils" do
+      [1, "too", nil, true, nil, false].lazily.compact.to_a.should == [1, "too", true, false]
+    end
+
+    it "is lazy" do
+      [nil].ecetera.lazily.compact.should be_lazy
+    end
+
+  end
+
   describe "#[]" do
 
     let(:evens) do
