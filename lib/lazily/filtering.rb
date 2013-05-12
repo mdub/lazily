@@ -36,16 +36,12 @@ module Lazily
       filter("uniq") do |output|
         seen = Set.new
         each do |element|
-          output.call(element) if seen.add?(element)
-        end
-      end
-    end
-
-    def uniq_by
-      filter("uniq_by") do |output|
-        seen = Set.new
-        each do |element|
-          output.call(element) if seen.add?(yield element)
+          key = if block_given?
+            yield element
+          else
+            element
+          end
+          output.call(element) if seen.add?(key)
         end
       end
     end

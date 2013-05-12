@@ -48,13 +48,13 @@ describe Lazily, "filter" do
       [1,2,3].with_time_bomb.lazily.uniq.should be_lazy
     end
 
-  end
+    context "with a block" do
 
-  describe "#uniq_by" do
+      it "uses the block to derive identity" do
+        array = %w(A1 A2 B1 A3 C1 B2 C2)
+        array.lazily.uniq { |s| s[0,1] }.to_a.should == %w(A1 B1 C1)
+      end
 
-    it "uses the block to derive identity" do
-      array = %w(A1 A2 B1 A3 C1 B2 C2)
-      array.lazily.uniq_by { |s| s[0,1] }.to_a.should == %w(A1 B1 C1)
     end
 
   end
