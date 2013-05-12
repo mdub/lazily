@@ -128,11 +128,16 @@ Lazily supercedes "[Enumerating](http://github.com/mdub/enumerating)".  Whereas 
 
 ### Lazily vs. Ruby 2.0
 
-FAQ: Why would you use Lazily, when Ruby now has built-in lazy enumeration?
+Q: Why use Lazily, when Ruby 2.x has built-in lazy enumerations?
 
 - Compatibility: Perhaps you haven't managed to migrate to Ruby 2.0 yet.  Lazily provides the same benefits, but works in older versions of Ruby (most features work even in Ruby-1.8.7).
+- Consistency: Being pure-Ruby, you can use the same implementation of lazy enumeration across Ruby versions and interpreters.
 - Features: Lazily provides some extra features not present in Ruby 2.0, such as multi-threaded lazy enumeration.
 - Speed: Despite being implemented in pure Ruby, `Enumerable#lazily` actually performs a little better than `Enumerable#lazy`.
+
+Q: When would you use built-in Ruby lazy enumerations, rather than Lazily?
+
+- I wouldn't.
 
 ### Others
 
