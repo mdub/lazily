@@ -182,6 +182,32 @@ describe Lazily, "filter" do
 
   end
 
+  describe "#slice_before" do
+
+    let(:words) do
+      %w(One two three Two two three)
+    end
+
+    it "can slice with a pattern" do
+      words.lazily.slice_before(/^[A-Z]/).to_a.should == [
+        %w(One two three),
+        %w(Two two three)
+      ]
+    end
+
+    it "can slice with a block" do
+      words.lazily.slice_before { |w| w =~ /^[A-Z]/ }.to_a.should == [
+        %w(One two three),
+        %w(Two two three)
+      ]
+    end
+
+    it "is lazy" do
+      words.lazily.slice_before(/^[A-Z]/).should be_lazy
+    end
+
+  end
+
   describe "#[]" do
 
     let(:evens) do

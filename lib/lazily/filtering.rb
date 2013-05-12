@@ -100,10 +100,6 @@ module Lazily
       end
     end
 
-    # TODO:
-    #   - chunk
-    #   - slice_before
-
     def flatten(level = 1)
       filter("flatten") do |output|
         each do |element|
@@ -121,6 +117,13 @@ module Lazily
     end
 
     alias collect_concat flat_map
+
+    def slice_before(*args, &block)
+      super.lazily
+    end
+
+    # TODO:
+    #   - chunk
 
     def [](n)
       drop(n).first
