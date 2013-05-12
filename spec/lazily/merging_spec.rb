@@ -19,15 +19,15 @@ describe Lazily, :needs_enumerators => true do
       merged.should be_lazy
     end
 
-  end
+    context "with a block" do
 
-  describe ".merge_by" do
+      it "uses the block to determine order" do
+        array1 = %w(cccc dd a)
+        array2 = %w(eeeee bbb)
+        merged = Lazily.merge(array1, array2) { |s| -s.length }
+        merged.to_a.should == %w(eeeee cccc bbb dd a)
+      end
 
-    it "uses the block to determine order" do
-      array1 = %w(cccc dd a)
-      array2 = %w(eeeee bbb)
-      merged = Lazily.merge_by(array1, array2) { |s| -s.length }
-      merged.to_a.should == %w(eeeee cccc bbb dd a)
     end
 
   end

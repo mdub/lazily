@@ -4,11 +4,7 @@ module Lazily
 
   class << self
 
-    def merge(*enumerables)
-      Merger.new(enumerables)
-    end
-
-    def merge_by(*enumerables, &block)
+    def merge(*enumerables, &block)
       Merger.new(enumerables, &block)
     end
 
