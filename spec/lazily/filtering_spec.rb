@@ -133,6 +133,28 @@ describe Lazily, "filter" do
 
   end
 
+  describe "#flat_map" do
+
+    let(:array) { [1,2,3] }
+
+    it "flattens resulting Enumerables" do
+      array.lazily.flat_map { |n| [n] * n }.to_a.should == [1,2,2,3,3,3]
+    end
+
+    it "handles blocks that don't return Enumerables" do
+      array.lazily.flat_map { |n| n * n }.to_a.should == [1,4,9]
+    end
+
+    it "handles nils " do
+      array.lazily.flat_map { nil }.to_a.should == [nil, nil, nil]
+    end
+
+    it "is lazy" do
+      array.with_time_bomb.lazily.flat_map { |n| [n] * n }.should be_lazy
+    end
+
+  end
+
   describe "#[]" do
 
     let(:evens) do

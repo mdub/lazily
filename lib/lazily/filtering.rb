@@ -102,8 +102,22 @@ module Lazily
 
     # TODO:
     #   - chunk
-    #   - flat_map/collect_concat
     #   - slice_before
+
+    def flat_map
+      filter("flat_map") do |output|
+        each do |element|
+          result = yield(element)
+          if result.respond_to?(:each)
+            result.each(&output)
+          else
+            output.call(result)
+          end
+        end
+      end
+    end
+
+    alias collect_concat flat_map
 
     def [](n)
       drop(n).first
