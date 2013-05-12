@@ -10,3 +10,9 @@ RSpec::Core::RakeTask.new do |t|
 end
 
 task "default" => "spec"
+
+desc "Generate documentation"
+task(:doc) { sh "yard" }
+
+desc "Generate documentation incrementally"
+task(:redoc) { sh "yard -c" }

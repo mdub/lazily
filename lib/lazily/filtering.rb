@@ -4,7 +4,12 @@ module Lazily
 
   module Enumerable
 
-    def collect
+    # Transform elements using the block provided.
+    # @return [Enumerable] the transformed elements
+    #
+    # @see ::Enumerable#collect
+    #
+    def collect(&transformation)
       filter("collect") do |output|
         each do |element|
           output.call yield(element)
@@ -14,7 +19,13 @@ module Lazily
 
     alias map collect
 
-    def select
+    # Select elements using a predicate block.
+    #
+    # @return [Enumerable] the elements that pass the predicate
+    #
+    # @see ::Enumerable#select
+    #
+    def select(&predicate)
       filter("select") do |output|
         each do |element|
           output.call(element) if yield(element)
@@ -24,6 +35,14 @@ module Lazily
 
     alias find_all select
 
+    # Select elements that fail a test.
+    #
+    # @yield [element] each element
+    # @yieldreturn [Boolean] truthy if the element passed the test
+    # @return [Enumerable] the elements which failed the test
+    #
+    # @see ::Enumerable#reject
+    #
     def reject
       filter("reject") do |output|
         each do |element|
@@ -32,6 +51,15 @@ module Lazily
       end
     end
 
+    # Remove duplicate values.
+    #
+    # @return [Enumerable] elements which have not been previously encountered
+    # @overload uniq
+    #
+    # @overload uniq(&block)
+    #
+    # @see ::Enumerable#uniq
+    #
     def uniq
       filter("uniq") do |output|
         seen = Set.new
@@ -46,6 +74,13 @@ module Lazily
       end
     end
 
+    # Select the first n elements.
+    #
+    # @param n [Integer] the number of elements to take
+    # @return [Enumerable] the first N elements
+    #
+    # @see ::Enumerable#take
+    #
     def take(n)
       filter("take") do |output|
         if n > 0
@@ -57,7 +92,13 @@ module Lazily
       end
     end
 
-    def take_while
+    # Select elements while a predicate returns true.
+    #
+    # @return [Enumerable] all elements before the first that fails the predicate
+    #
+    # @see ::Enumerable#take_while
+    #
+    def take_while(&predicate)
       filter("take_while") do |output|
         each do |element|
           throw Filter::DONE unless yield(element)
@@ -66,6 +107,13 @@ module Lazily
       end
     end
 
+    # Ignore the first n elements.
+    #
+    # @param n [Integer] the number of elements to drop
+    # @return [Enumerable] elements after the first N
+    #
+    # @see ::Enumerable#drop
+    #
     def drop(n)
       filter("drop") do |output|
         each_with_index do |element, index|
@@ -75,7 +123,13 @@ module Lazily
       end
     end
 
-    def drop_while
+    # Reject elements while a predicate returns true.
+    #
+    # @return [Enumerable] all elements including and after the first that fails the predicate
+    #
+    # @see ::Enumerable#drop_while
+    #
+    def drop_while(&predicate)
       filter("drop_while") do |output|
         take = false
         each do |element|
@@ -85,17 +139,33 @@ module Lazily
       end
     end
 
-    def grep(pattern, &block)
+    # Select elements matching a pattern.
+    #
+    # @return [Enumerable] elements for which the pattern matches
+    #
+    # @see ::Enumerable#grep
+    #
+    def grep(pattern)
       filter("grep") do |output|
         each do |element|
           if pattern === element
-            element = block.call(element) if block
-            output.call(element)
+            result = if block_given?
+              yield element
+            else
+              element
+            end
+            output.call(result)
           end
         end
       end
     end
 
+    # Flatten the collection, such that Enumerable elements are included inline.
+    #
+    # @return [Enumerable] elements of elements of the collection
+    #
+    # @see ::Array#flatten
+    #
     def flatten(level = 1)
       filter("flatten") do |output|
         each do |element|
@@ -118,12 +188,15 @@ module Lazily
       super.lazily
     end
 
-    # TODO:
-    #   - chunk
-
+    # @return the nth element
+    #
     def [](n)
       drop(n).first
     end
+
+    # TODO:
+    #   - chunk
+    #   - compact
 
     private
 
