@@ -4,6 +4,19 @@ module Lazily
 
   class << self
 
+    # Merge a number of sorted Enumerables into a single sorted collection.
+    #
+    # Draws elements from enumerables as appropriate, to preserve the sort order. An optional block, if provided, is used for comparison of elements.
+    # Otherwise, natural element order is used.
+    #
+    # @param enumerables [Array<Enumerable>]
+    # @return [Enumerable] merged, sorted elements
+    #
+    # @example
+    #   array1 = [1,4,5]
+    #   array2 = [2,3,6]
+    #   Lazily.merge(array1, array2)        #=> [1,2,3,4,5,6]
+    #
     def merge(*enumerables, &block)
       Merger.new(enumerables, &block)
     end

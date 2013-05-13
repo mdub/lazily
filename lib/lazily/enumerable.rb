@@ -4,6 +4,7 @@ module Lazily
 
     include ::Enumerable
 
+    # @return true
     def lazy?
       true
     end

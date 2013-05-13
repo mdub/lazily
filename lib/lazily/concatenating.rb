@@ -9,6 +9,11 @@ module Lazily
     # @param enumerables [Array<Enumerable>]
     # @return [Enumerable] elements of all the enumerables
     #
+    # @example
+    #   array1 = [1,4,5]
+    #   array2 = [2,3,6]
+    #   Lazily.concat(array1, array2)       #=> [1,4,5,2,3,6]
+    #
     def concat(*enumerables)
       Concatenator.new(enumerables)
     end
