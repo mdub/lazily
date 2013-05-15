@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Lazily, :needs_enumerators => true do
+describe Lazily do
 
   describe ".merge" do
 
@@ -32,4 +32,4 @@ describe Lazily, :needs_enumerators => true do
 
   end
 
-end
+end if defined?(::Enumerator)

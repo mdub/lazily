@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Lazily, "zipping", :needs_enumerators => true do
+describe Lazily, "zipping" do
 
   let(:array1) { [1,3,6] }
   let(:array2) { [2,4,7] }
@@ -32,4 +32,4 @@ describe Lazily, "zipping", :needs_enumerators => true do
 
   end
 
-end
+end if defined?(::Enumerator)
