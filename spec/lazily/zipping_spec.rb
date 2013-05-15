@@ -4,7 +4,7 @@ describe Lazily, "zipping" do
 
   let(:array1) { [1,3,6] }
   let(:array2) { [2,4,7] }
-  let(:array3) { [5,8] }
+  let(:array3) { [5] }
 
   describe ".zip" do
 
@@ -32,4 +32,4 @@ describe Lazily, "zipping" do
 
   end
 
-end if defined?(::Enumerator)
+end

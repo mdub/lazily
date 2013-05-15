@@ -28,11 +28,13 @@ module Lazily
 
     def each
       enumerators = @enumerables.map(&:to_enum)
+      exhausted = {}
       while true
         chunk = enumerators.map do |enumerator|
           begin
-            enumerator.next
+            enumerator.next unless exhausted[enumerator]
           rescue StopIteration
+            exhausted[enumerator] = true
             nil
           end
         end
