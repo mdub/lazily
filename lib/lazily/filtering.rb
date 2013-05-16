@@ -82,11 +82,11 @@ module Lazily
     # @see ::Enumerable#take
     #
     def take(n)
-      filter("take") do |output|
+      filter("take") do |output, done|
         if n > 0
           each_with_index do |element, index|
             output.call(element)
-            throw Filter::DONE if index + 1 == n
+            throw done if index + 1 == n
           end
         end
       end
@@ -99,9 +99,9 @@ module Lazily
     # @see ::Enumerable#take_while
     #
     def take_while(&predicate)
-      filter("take_while") do |output|
+      filter("take_while") do |output, done|
         each do |element|
-          throw Filter::DONE unless yield(element)
+          throw done unless yield(element)
           output.call(element)
         end
       end
@@ -238,13 +238,12 @@ module Lazily
       @generator = generator
     end
 
-    DONE = "Lazily::DONE".to_sym
-
     def each
+      done = Object.new
       return to_enum unless block_given?
       yielder = proc { |x| yield x }
-      catch DONE do
-        @generator.call(yielder)
+      catch done do
+        @generator.call(yielder, done)
       end
     end
 
