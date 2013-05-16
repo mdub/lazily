@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1
+## 0.1.1 (2013-05-06)
 
 * Get lazy `#zip` working in Ruby 1.8.7.
 * Bug-fix: #prefetch and #take were interacting badly.
