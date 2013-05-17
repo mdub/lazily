@@ -10,9 +10,9 @@ module Lazily
     # @see ::Enumerable#collect
     #
     def collect(&transformation)
-      filter("collect") do |output|
+      filter("collect") do |yielder|
         each do |element|
-          output.call yield(element)
+          yielder.call yield(element)
         end
       end
     end
@@ -26,9 +26,9 @@ module Lazily
     # @see ::Enumerable#select
     #
     def select(&predicate)
-      filter("select") do |output|
+      filter("select") do |yielder|
         each do |element|
-          output.call(element) if yield(element)
+          yielder.call(element) if yield(element)
         end
       end
     end
@@ -44,9 +44,9 @@ module Lazily
     # @see ::Enumerable#reject
     #
     def reject
-      filter("reject") do |output|
+      filter("reject") do |yielder|
         each do |element|
-          output.call(element) unless yield(element)
+          yielder.call(element) unless yield(element)
         end
       end
     end
@@ -61,7 +61,7 @@ module Lazily
     # @see ::Enumerable#uniq
     #
     def uniq
-      filter("uniq") do |output|
+      filter("uniq") do |yielder|
         seen = Set.new
         each do |element|
           key = if block_given?
@@ -69,7 +69,7 @@ module Lazily
           else
             element
           end
-          output.call(element) if seen.add?(key)
+          yielder.call(element) if seen.add?(key)
         end
       end
     end
@@ -82,11 +82,11 @@ module Lazily
     # @see ::Enumerable#take
     #
     def take(n)
-      filter("take") do |output, done|
+      filter("take") do |yielder, all_done|
         if n > 0
           each_with_index do |element, index|
-            output.call(element)
-            throw done if index + 1 == n
+            yielder.call(element)
+            throw all_done if index + 1 == n
           end
         end
       end
@@ -99,10 +99,10 @@ module Lazily
     # @see ::Enumerable#take_while
     #
     def take_while(&predicate)
-      filter("take_while") do |output, done|
+      filter("take_while") do |yielder, all_done|
         each do |element|
-          throw done unless yield(element)
-          output.call(element)
+          throw all_done unless yield(element)
+          yielder.call(element)
         end
       end
     end
@@ -115,10 +115,10 @@ module Lazily
     # @see ::Enumerable#drop
     #
     def drop(n)
-      filter("drop") do |output|
+      filter("drop") do |yielder|
         each_with_index do |element, index|
           next if index < n
-          output.call(element)
+          yielder.call(element)
         end
       end
     end
@@ -130,11 +130,11 @@ module Lazily
     # @see ::Enumerable#drop_while
     #
     def drop_while(&predicate)
-      filter("drop_while") do |output|
+      filter("drop_while") do |yielder|
         take = false
         each do |element|
           take ||= !yield(element)
-          output.call(element) if take
+          yielder.call(element) if take
         end
       end
     end
@@ -146,7 +146,7 @@ module Lazily
     # @see ::Enumerable#grep
     #
     def grep(pattern)
-      filter("grep") do |output|
+      filter("grep") do |yielder|
         each do |element|
           if pattern === element
             result = if block_given?
@@ -154,7 +154,7 @@ module Lazily
             else
               element
             end
-            output.call(result)
+            yielder.call(result)
           end
         end
       end
@@ -167,12 +167,12 @@ module Lazily
     # @see ::Array#flatten
     #
     def flatten(level = 1)
-      filter("flatten") do |output|
+      filter("flatten") do |yielder|
         each do |element|
           if level > 0 && element.respond_to?(:each)
-            element.flatten(level - 1).each(&output)
+            element.flatten(level - 1).each(&yielder)
           else
-            output.call(element)
+            yielder.call(element)
           end
         end
       end
@@ -191,9 +191,9 @@ module Lazily
     # @see ::Array#compact
     #
     def compact
-      filter("compact") do |output|
+      filter("compact") do |yielder|
         each do |element|
-          output.call(element) unless element.nil?
+          yielder.call(element) unless element.nil?
         end
       end
     end
@@ -240,14 +240,15 @@ module Lazily
 
     def each
       return to_enum unless block_given?
-      output = proc { |x| yield x }
+      yielder = proc { |x| yield x }
       if @generator.arity == 2
-        done = "done-#{object_id}".to_sym
-        catch done do
-          @generator.call(output, done)
+        # we might want to terminate early
+        all_done = "Lazily::loop-done-#{object_id}".to_sym
+        catch all_done do
+          @generator.call(yielder, all_done)
         end
       else
-        @generator.call(output)
+        @generator.call(yielder)
       end
     end
 
