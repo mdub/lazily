@@ -134,10 +134,6 @@ Q: Why use Lazily, when Ruby 2.x has built-in lazy enumerations?
 - Features: Lazily provides some extra features not present in Ruby 2.0, such as multi-threaded lazy enumeration.
 - Speed: Despite being implemented in pure Ruby, `Enumerable#lazily` actually performs a little better than `Enumerable#lazy`.
 
-Q: When would you use built-in Ruby lazy enumerations, rather than Lazily?
-
-- I wouldn't.
-
 ### Others
 
 See also:
