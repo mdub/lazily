@@ -6,7 +6,7 @@ describe Lazily, "associating" do
 
     context "with two identical Enumerables" do
 
-      let(:collectionA) { [2,4,6]}
+      let(:collectionA) { [2,4,6] }
       let(:collectionB) { collectionA }
 
       let(:result) do
@@ -52,11 +52,11 @@ describe Lazily, "associating" do
         Lazily.associate(:A => collectionA, :B => collectionB, :C => collectionC)
       end
 
-      it "omits the key for the corresponding enumerable" do
+      it "returns an empty Array for the corresponding label" do
         expect(result.to_a).to eq [
-          { :A => [1], :C => [1] },
-          { :A => [2], :B => [2] },
-          { :B => [3], :C => [3] }
+          { :A => [1], :B => [ ], :C => [1] },
+          { :A => [2], :B => [2], :C => [ ] },
+          { :A => [ ], :B => [3], :C => [3] }
         ]
       end
 

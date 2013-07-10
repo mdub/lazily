@@ -19,24 +19,18 @@ module Lazily
     #     ]
     #
     def associate(enumerable_map)
+      labels = enumerable_map.keys
       labelled_enumerables = enumerable_map.map do |label, enumerable|
         enumerable.lazily.map { |e| [e, e, label] }
       end
       labelled_elements = Lazily.merge(*labelled_enumerables) { |triple| triple.first }
       labelled_elements.chunk { |triple| triple.first }.map do |key, triples|
-        create_association.tap do |association|
-          triples.each do |triple|
-            association[triple.last] << triple.first
-          end
+        association = {}
+        labels.each { |label| association[label] = [] }
+        triples.each do |triple|
+          association[triple.last] << triple.first
         end
-      end
-    end
-
-    private
-
-    def create_association
-      Hash.new do |hash, key|
-        hash[key] = []
+        association
       end
     end
 
