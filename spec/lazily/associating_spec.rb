@@ -4,17 +4,17 @@ describe Lazily, "associating" do
 
   describe ".associate" do
 
-    let(:result) do
-      Lazily.associate(:A => collectionA, :B => collectionB).to_a
-    end
-
     context "with two identical Enumerables" do
 
       let(:collectionA) { [2,4,6]}
       let(:collectionB) { collectionA }
 
+      let(:result) do
+        Lazily.associate(:A => collectionA, :B => collectionB)
+      end
+
       it "yields matched pairs" do
-        expect(result).to eq [
+        expect(result.to_a).to eq [
           { :A => [2], :B => [2] },
           { :A => [4], :B => [4] },
           { :A => [6], :B => [6] }
@@ -30,11 +30,11 @@ describe Lazily, "associating" do
       let(:collectionC) { collectionA }
 
       let(:result) do
-        Lazily.associate(:A => collectionA, :B => collectionB, :C => collectionC).to_a
+        Lazily.associate(:A => collectionA, :B => collectionB, :C => collectionC)
       end
 
       it "yields matched triples" do
-        expect(result).to eq [
+        expect(result.to_a).to eq [
           { :A => [1], :B => [1], :C => [1] },
           { :A => [2], :B => [2], :C => [2] }
         ]
@@ -49,11 +49,11 @@ describe Lazily, "associating" do
       let(:collectionC) { [1,3] }
 
       let(:result) do
-        Lazily.associate(:A => collectionA, :B => collectionB, :C => collectionC).to_a
+        Lazily.associate(:A => collectionA, :B => collectionB, :C => collectionC)
       end
 
       it "omits the key for the corresponding enumerable" do
-        expect(result).to eq [
+        expect(result.to_a).to eq [
           { :A => [1], :C => [1] },
           { :A => [2], :B => [2] },
           { :B => [3], :C => [3] }
