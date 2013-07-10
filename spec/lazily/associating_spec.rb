@@ -62,6 +62,30 @@ describe Lazily, "associating" do
 
     end
 
+    context "with a block" do
+
+      let(:colours) { %w(blue red) }
+      let(:fruits)  { %w(apple banana cranberry) }
+      let(:shapes)  { %w(circle rectangle triangle) }
+
+      let(:result) do
+        Lazily.associate(:c => colours, :f => fruits, :s => shapes) do |word|
+          word.chars.first
+        end
+      end
+
+      it "uses the block to associate the elements" do
+        expect(result.to_a).to eq [
+          { :c => [], :f => ['apple'], :s => [] },
+          { :c => ['blue'], :f => ['banana'], :s => [] },
+          { :c => [], :f => ['cranberry'], :s => ['circle'] },
+          { :c => ['red'], :f => [], :s => ['rectangle'] },
+          { :c => [], :f => [], :s => ['triangle'] }
+        ]
+      end
+
+    end
+
   end
 
 end
