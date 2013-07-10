@@ -93,4 +93,4 @@ describe Lazily, "associating" do
 
   end
 
-end
+end if ::Enumerable.method_defined?(:chunk)
