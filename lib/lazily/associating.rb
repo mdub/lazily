@@ -18,24 +18,26 @@ module Lazily
     #       { a: [4], b: [4, 4] }
     #     ]
     #
-    def associate(enumerable_map, &distinctor)
-      labels = enumerable_map.keys
-      labelled_enumerables = enumerable_map.map do |label, enumerable|
-        enumerable.lazily.map do |e|
-          key = distinctor ? distinctor.call(e) : e
-          [key, e, label]
+    def associate(source_map, &block)
+      labels = source_map.keys
+      tagged_element_sources = source_map.map do |label, enumerable|
+        enumerable.lazily.map do |value|
+          key = block ? block.call(value) : value
+          TaggedElement.new(key, value, label)
         end
       end
-      labelled_elements = Lazily.merge(*labelled_enumerables) { |triple| triple.first }
-      labelled_elements.chunk { |triple| triple.first }.map do |key, triples|
+      tagged_elements = Lazily.merge(*tagged_element_sources) { |te| te.key }
+      tagged_elements.chunk { |te| te.key }.map do |_, tagged_elements|
         association = {}
         labels.each { |label| association[label] = [] }
-        triples.each do |triple|
-          association[triple.last] << triple[1]
+        tagged_elements.each do |te|
+          association[te.label] << te.value
         end
         association
       end
     end
+
+    TaggedElement = Struct.new(:key, :value, :label)
 
   end
 
