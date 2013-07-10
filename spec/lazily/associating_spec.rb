@@ -86,6 +86,11 @@ describe Lazily, "associating" do
 
     end
 
+    it "is lazy" do
+      result = Lazily.associate(:a => [1,2].ecetera, :b => [3,4].ecetera )
+      expect(result.first).to eq(:a => [1], :b => [])
+    end
+
   end
 
 end
