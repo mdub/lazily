@@ -16,27 +16,27 @@ describe Lazily, "threading" do
       [1,2,3].ecetera.lazily.in_threads(2) { |x| x * 2 }.should be_lazy
     end
 
-    def round(n, accuracy = 0.02)
-      (n / accuracy).round.to_f * accuracy
+    def round(n, accuracy = 20)
+      (n * accuracy).round.to_f / accuracy
     end
 
     it "runs the specified number of threads in parallel" do
-      delays = [0.03, 0.03, 0.03]
+      delays = [0.05, 0.05, 0.05]
       start = Time.now
       delays.lazily.in_threads(2) do |delay|
         sleep(delay)
       end.to_a
-      round(Time.now - start).should eq(0.06)
+      round(Time.now - start).should eq(0.1)
     end
 
     it "acts as a sliding window" do
-      delays = [0.1, 0.08, 0.06, 0.04, 0.02]
+      delays = [0.1, 0.15, 0.05, 0.05, 0.05]
       start = Time.now
       elapsed_times = delays.lazily.in_threads(3) do |delay|
         sleep(delay)
         round(Time.now - start)
       end
-      elapsed_times.to_a.should eq([0.1, 0.08, 0.06, 0.14, 0.12])
+      elapsed_times.to_a.should eq([0.1, 0.15, 0.05, 0.15, 0.2])
     end
 
     it "surfaces exceptions" do
