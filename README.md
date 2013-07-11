@@ -41,14 +41,14 @@ See how it printed all the numbers from 1 to 10, indicating that the block given
     4
     => [1, 4, 9, 16]
 
-Same result, but notice how the block was only evaluated four times. 
+Same result, but notice how the block was only evaluated four times.
 
 Lazy pipelines
 --------------
 
 By combining two or more lazy operations, you can create an efficient "pipeline", e.g.
 
-    User.to_enum(:find_each).lazily.select do |u| 
+    User.to_enum(:find_each).lazily.select do |u|
       u.first_name[0] == u.last_name[0]
     end.collect(&:company).uniq.to_a
 
@@ -73,7 +73,7 @@ This is analogous to a Unix shell pipeline, though of course here we're talking 
 Lazy multi-threaded processing
 ------------------------------
 
-The `#in_threads` method is a multi-threaded version of `#collect`, allowing multiple elements of a collection to be processed in parallel.  It requires a numeric argument specifying the maximum number of Threads to use. 
+The `#in_threads` method is a multi-threaded version of `#collect`, allowing multiple elements of a collection to be processed in parallel.  It requires a numeric argument specifying the maximum number of Threads to use.
 
     Benchmark.realtime do
       [1,2,3,4].lazily.in_threads(10) do |x|
@@ -82,7 +82,7 @@ The `#in_threads` method is a multi-threaded version of `#collect`, allowing mul
       end.to_a                  #=> [2,4,6,8]
     end.to_i                    #=> 1
 
-Outputs will be yielded in the expected order, making it a drop-in replacement for `#collect`. 
+Outputs will be yielded in the expected order, making it a drop-in replacement for `#collect`.
 
 Unlike some other "parallel map" implementations, the output of `#in_threads` is lazy (though it does need to pre-fetch elements from the source collection as required to start Threads).
 
@@ -116,10 +116,24 @@ A block can be provided to determine the sort-order.
     Lazily.merge(array1, array2) { |x| x.length }
                                         #=> %w(a dd eee cccc bbbbb)
 
+`Lazily.associate` matches up "like" elements from separate collections.  Again, it assumes it's inputs sorted.
+
+    fruit = %w(apple banana orange)
+    nautical_terms = %w(anchor boat flag)
+    Lazily.associate(:fruit => fruit, :nautical => nautical_terms) do |word|
+      word.chars.first
+    end
+    #=> [
+      { :fruit => ["apple"],  :nautical => ["anchor"] },
+      { :fruit => ["banana"], :nautical => ["boat"]   },
+      { :fruit => [],         :nautical => ["flag"]   },
+      { :fruit => ["orange"], :nautical => []         }
+    ]
+
 Same but different
 ------------------
 
-There are numerous similar implementations of lazy operations on Enumerables.  
+There are numerous similar implementations of lazy operations on Enumerables.
 
 ### Lazily vs. Enumerating
 
