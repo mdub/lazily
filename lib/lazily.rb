@@ -1,4 +1,5 @@
 require "lazily/combining"
+require "lazily/dequeuing"
 require "lazily/filtering"
 require "lazily/proxy"
 require "lazily/threading"
