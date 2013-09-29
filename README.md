@@ -86,6 +86,20 @@ Outputs will be yielded in the expected order, making it a drop-in replacement f
 
 Unlike some other "parallel map" implementations, the output of `#in_threads` is lazy (though it does need to pre-fetch elements from the source collection as required to start Threads).
 
+Lazy queue processing
+---------------------
+
+`Lazily.dequeue` makes a Queue look like a (lazy) Enumerable, making it easier to process data produced by other Threads, e.g.
+
+    q = Queue.new
+    Thread.new do
+      q << 1
+      q << 2
+      q << 3
+    end
+
+    Lazily.dequeue(q).take(2).to_a    # => [1,2]
+
 Lazy combination of Enumerables
 -------------------------------
 
