@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.email         = "mdub@dogbiscuit.org"
   s.homepage      = "http://github.com/mdub/lazily"
 
+  s.license       = "MIT"
+
   s.summary       = %{Lazy Enumerables for everybody!}
   s.description   = <<-EOT
     Lazily implements "lazy" versions of many Enumerable methods,
