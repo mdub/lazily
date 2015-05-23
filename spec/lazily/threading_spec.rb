@@ -45,6 +45,16 @@ describe Lazily, "threading" do
       end.should raise_error(RuntimeError, "hell")
     end
 
+    context "with less than 2 threads" do
+
+      it "acts like #collect" do
+        [1, 0, nil].each do |n|
+          [1,2,3].lazily.in_threads(n) { |x| x * 2 }.to_a.should == [2,4,6]
+        end
+      end
+
+    end
+
   end
 
 end
