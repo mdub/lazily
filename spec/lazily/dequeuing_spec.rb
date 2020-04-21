@@ -1,5 +1,6 @@
 require "spec_helper"
 require "thread"
+require "timeout"
 
 describe Lazily, "dequeuing" do
 

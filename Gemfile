@@ -2,6 +2,6 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rake", "~> 10.0.0"
-gem "rspec", "~> 2.13.0"
+gem "rake", "~> 12.3"
+gem "rspec", "~> 3.9"
 gem "yard"
