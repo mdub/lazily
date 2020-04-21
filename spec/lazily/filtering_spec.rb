@@ -5,11 +5,11 @@ describe Lazily, "filter" do
   describe "#collect" do
 
     it "transforms items" do
-      [1,2,3].lazily.collect { |x| x * 2 }.to_a.should == [2,4,6]
+      expect([1,2,3].lazily.collect { |x| x * 2 }.to_a).to eq([2,4,6])
     end
 
     it "is lazy" do
-      [1,2,3].ecetera.lazily.collect { |x| x * 2 }.should be_lazy
+      expect([1,2,3].ecetera.lazily.collect { |x| x * 2 }).to be_lazy
     end
 
   end
@@ -17,11 +17,11 @@ describe Lazily, "filter" do
   describe "#select" do
 
     it "excludes items that don't pass the predicate" do
-      (1..6).lazily.select { |x| x%2 == 0 }.to_a.should == [2,4,6]
+      expect((1..6).lazily.select { |x| x%2 == 0 }.to_a).to eq([2,4,6])
     end
 
     it "is lazy" do
-      (1..6).ecetera.lazily.select { |x| x%2 == 0 }.should be_lazy
+      expect((1..6).ecetera.lazily.select { |x| x%2 == 0 }).to be_lazy
     end
 
   end
@@ -29,11 +29,11 @@ describe Lazily, "filter" do
   describe "#reject" do
 
     it "excludes items that do pass the predicate" do
-      (1..6).lazily.reject { |x| x%2 == 0 }.to_a.should == [1,3,5]
+      expect((1..6).lazily.reject { |x| x%2 == 0 }.to_a).to eq([1,3,5])
     end
 
     it "is lazy" do
-      (1..6).ecetera.lazily.reject { |x| x%2 == 0 }.should be_lazy
+      expect((1..6).ecetera.lazily.reject { |x| x%2 == 0 }).to be_lazy
     end
 
   end
@@ -41,18 +41,18 @@ describe Lazily, "filter" do
   describe "#uniq" do
 
     it "removes duplicates" do
-      [1,3,2,4,3,5,4,6].lazily.uniq.to_a.should == [1,3,2,4,5,6]
+      expect([1,3,2,4,3,5,4,6].lazily.uniq.to_a).to eq([1,3,2,4,5,6])
     end
 
     it "is lazy" do
-      [1,2,3].ecetera.lazily.uniq.should be_lazy
+      expect([1,2,3].ecetera.lazily.uniq).to be_lazy
     end
 
     context "with a block" do
 
       it "uses the block to derive identity" do
         array = %w(A1 A2 B1 A3 C1 B2 C2)
-        array.lazily.uniq { |s| s[0,1] }.to_a.should == %w(A1 B1 C1)
+        expect(array.lazily.uniq { |s| s[0,1] }.to_a).to eq(%w(A1 B1 C1))
       end
 
     end
@@ -63,15 +63,15 @@ describe Lazily, "filter" do
 
     it "includes the specified number" do
       array = [1,2,3,4]
-      array.lazily.take(3).to_a.should == [1,2,3]
+      expect(array.lazily.take(3).to_a).to eq([1,2,3])
     end
 
     it "is lazy" do
-      [1,2].ecetera.lazily.take(2).should be_lazy
+      expect([1,2].ecetera.lazily.take(2)).to be_lazy
     end
 
     it "copes with 0" do
-      [].ecetera.lazily.take(0).to_a.should == []
+      expect([].ecetera.lazily.take(0).to_a).to eq([])
     end
 
   end
@@ -80,11 +80,11 @@ describe Lazily, "filter" do
 
     it "takees elements as long as the predicate is true" do
       array = [2,4,6,3]
-      array.lazily.take_while(&:even?).to_a.should == [2,4,6]
+      expect(array.lazily.take_while(&:even?).to_a).to eq([2,4,6])
     end
 
     it "is lazy" do
-      [2,3].ecetera.lazily.take_while(&:even?).should be_lazy
+      expect([2,3].ecetera.lazily.take_while(&:even?)).to be_lazy
     end
 
   end
@@ -93,11 +93,11 @@ describe Lazily, "filter" do
 
     it "excludes the specified number" do
       array = [1,2,3,4]
-      array.lazily.drop(2).to_a.should == [3,4]
+      expect(array.lazily.drop(2).to_a).to eq([3,4])
     end
 
     it "is lazy" do
-      [1,2,3,4].ecetera.lazily.drop(2).lazily.take(1).to_a.should == [3]
+      expect([1,2,3,4].ecetera.lazily.drop(2).lazily.take(1).to_a).to eq([3])
     end
 
   end
@@ -106,11 +106,11 @@ describe Lazily, "filter" do
 
     it "drops elements as long as the predicate is true" do
       array = [2,4,6,3,4]
-      array.lazily.drop_while(&:even?).to_a.should == [3,4]
+      expect(array.lazily.drop_while(&:even?).to_a).to eq([3,4])
     end
 
     it "is lazy" do
-      [2,3].ecetera.lazily.drop_while(&:even?).lazily.should be_lazy
+      expect([2,3].ecetera.lazily.drop_while(&:even?).lazily).to be_lazy
     end
 
   end
@@ -120,15 +120,15 @@ describe Lazily, "filter" do
     let(:fruits) { %w(apple banana pear orange) }
 
     it "returns elements matching a pattern" do
-      fruits.lazily.grep(/e$/).to_a.should == %w(apple orange)
+      expect(fruits.lazily.grep(/e$/).to_a).to eq(%w(apple orange))
     end
 
     it "applies the associated block" do
-      fruits.lazily.grep(/e$/, &:capitalize).to_a.should == %w(Apple Orange)
+      expect(fruits.lazily.grep(/e$/, &:capitalize).to_a).to eq(%w(Apple Orange))
     end
 
     it "is lazy" do
-      fruits.ecetera.lazily.grep(/p/).should be_lazy
+      expect(fruits.ecetera.lazily.grep(/p/)).to be_lazy
     end
 
   end
@@ -139,23 +139,23 @@ describe Lazily, "filter" do
     let(:array2) { [4,5,6] }
 
     it "flattens" do
-      [[1,2], [3,4]].lazily.flatten.to_a.should == [1,2,3,4]
+      expect([[1,2], [3,4]].lazily.flatten.to_a).to eq([1,2,3,4])
     end
 
     it "handles non-Enumerable elements" do
-      [1,2].lazily.flatten.to_a.should == [1,2]
+      expect([1,2].lazily.flatten.to_a).to eq([1,2])
     end
 
     it "goes one level deep (by default)" do
-      [[1,2], [[3]]].lazily.flatten.to_a.should == [1,2,[3]]
+      expect([[1,2], [[3]]].lazily.flatten.to_a).to eq([1,2,[3]])
     end
 
     it "allows the depth to be specified" do
-      [[1], [[2]], [[[3]]]].lazily.flatten(2).to_a.should == [1, 2, [3]]
+      expect([[1], [[2]], [[[3]]]].lazily.flatten(2).to_a).to eq([1, 2, [3]])
     end
 
     it "is lazy" do
-      [array1.ecetera, array2].lazily.flatten.should be_lazy
+      expect([array1.ecetera, array2].lazily.flatten).to be_lazy
     end
 
   end
@@ -165,19 +165,19 @@ describe Lazily, "filter" do
     let(:array) { [1,2,3] }
 
     it "flattens resulting Enumerables" do
-      array.lazily.flat_map { |n| [n] * n }.to_a.should == [1,2,2,3,3,3]
+      expect(array.lazily.flat_map { |n| [n] * n }.to_a).to eq([1,2,2,3,3,3])
     end
 
     it "handles blocks that don't return Enumerables" do
-      array.lazily.flat_map { |n| n * n }.to_a.should == [1,4,9]
+      expect(array.lazily.flat_map { |n| n * n }.to_a).to eq([1,4,9])
     end
 
     it "handles nils " do
-      array.lazily.flat_map { nil }.to_a.should == [nil, nil, nil]
+      expect(array.lazily.flat_map { nil }.to_a).to eq([nil, nil, nil])
     end
 
     it "is lazy" do
-      array.ecetera.lazily.flat_map { |n| [n] * n }.should be_lazy
+      expect(array.ecetera.lazily.flat_map { |n| [n] * n }).to be_lazy
     end
 
   end
@@ -191,21 +191,21 @@ describe Lazily, "filter" do
       end
 
       it "can slice with a pattern" do
-        words.lazily.slice_before(/^[A-Z]/).to_a.should == [
+        expect(words.lazily.slice_before(/^[A-Z]/).to_a).to eq([
           %w(One two three),
           %w(Two two three)
-        ]
+        ])
       end
 
       it "can slice with a block" do
-        words.lazily.slice_before { |w| w =~ /^[A-Z]/ }.to_a.should == [
+        expect(words.lazily.slice_before { |w| w =~ /^[A-Z]/ }.to_a).to eq([
           %w(One two three),
           %w(Two two three)
-        ]
+        ])
       end
 
       it "is lazy" do
-        words.ecetera.lazily.slice_before(/^[A-Z]/).should be_lazy
+        expect(words.ecetera.lazily.slice_before(/^[A-Z]/)).to be_lazy
       end
 
     end
@@ -217,16 +217,16 @@ describe Lazily, "filter" do
     describe "#chunk" do
 
       it "groups elements by the result of a block" do
-        [3,1,4,1,5,9,2,6].lazily.chunk(&:even?).to_a.should == [
+        expect([3,1,4,1,5,9,2,6].lazily.chunk(&:even?).to_a).to eq([
           [false, [3, 1]],
           [true, [4]],
           [false, [1, 5, 9]],
           [true, [2, 6]],
-        ]
+        ])
       end
 
       it "is lazy" do
-        [3,1,4,1,5,9,2,6].ecetera.lazily.chunk(&:even?).should be_lazy
+        expect([3,1,4,1,5,9,2,6].ecetera.lazily.chunk(&:even?)).to be_lazy
       end
 
     end
@@ -236,11 +236,11 @@ describe Lazily, "filter" do
   describe "#compact" do
 
     it "omits nils" do
-      [1, "too", nil, true, nil, false].lazily.compact.to_a.should == [1, "too", true, false]
+      expect([1, "too", nil, true, nil, false].lazily.compact.to_a).to eq([1, "too", true, false])
     end
 
     it "is lazy" do
-      [nil].ecetera.lazily.compact.should be_lazy
+      expect([nil].ecetera.lazily.compact).to be_lazy
     end
 
   end
@@ -252,11 +252,11 @@ describe Lazily, "filter" do
     end
 
     it "finds the specified element" do
-      evens.lazily[2].should == 6
+      expect(evens.lazily[2]).to eq(6)
     end
 
     it "is lazy" do
-      evens.ecetera.lazily[3].should == 8
+      expect(evens.ecetera.lazily[3]).to eq(8)
     end
 
   end

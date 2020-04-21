@@ -9,11 +9,11 @@ describe Lazily, "concatenating" do
 
     it "concatenates multiple Enumerables" do
       result = Lazily.concat(array1, array2)
-      result.to_a.should == array1 + array2
+      expect(result.to_a).to eq(array1 + array2)
     end
 
     it "is lazy" do
-      Lazily.concat(array1, array2.ecetera).should be_lazy
+      expect(Lazily.concat(array1, array2.ecetera)).to be_lazy
     end
 
   end
@@ -22,12 +22,12 @@ describe Lazily, "concatenating" do
 
     it "concatenates multiple Enumerables" do
       result = array1.lazily.concat(array2)
-      result.to_a.should == array1 + array2
+      expect(result.to_a).to eq(array1 + array2)
     end
 
     it "is lazy" do
       result = array1.lazily.concat(array2.ecetera)
-      result.take(3).to_a.should == (array1 + array2).take(3)
+      expect(result.take(3).to_a).to eq((array1 + array2).take(3))
     end
 
   end

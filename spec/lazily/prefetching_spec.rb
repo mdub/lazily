@@ -27,23 +27,23 @@ describe Lazily do
     let(:source) { [1, 2, 3, 4, nil, false, 7] }
 
     it "yields all items" do
-      source.lazily.prefetch(2).to_a.should eq(source)
-      source.lazily.prefetch(3).to_a.should eq(source)
+      expect(source.lazily.prefetch(2).to_a).to eq(source)
+      expect(source.lazily.prefetch(3).to_a).to eq(source)
     end
 
     it "is stateless" do
-      source.lazily.prefetch(2).first.should eq(source.first)
-      source.lazily.prefetch(2).first.should eq(source.first)
+      expect(source.lazily.prefetch(2).first).to eq(source.first)
+      expect(source.lazily.prefetch(2).first).to eq(source.first)
     end
 
     it "is lazy" do
-      source.ecetera.lazily.prefetch(2).should be_lazy
+      expect(source.ecetera.lazily.prefetch(2)).to be_lazy
     end
 
     it "pre-computes the specified number of elements" do
       counter = Counter.new(source)
       counter.lazily.prefetch(2).first
-      counter.number_yielded.should eq(3)
+      expect(counter.number_yielded).to eq(3)
     end
 
     context "with a buffer size of zero" do
@@ -51,7 +51,7 @@ describe Lazily do
       it "does not pre-fetch anything" do
         counter = Counter.new(source)
         counter.lazily.prefetch(0).first
-        counter.number_yielded.should eq(1)
+        expect(counter.number_yielded).to eq(1)
       end
 
     end
@@ -59,7 +59,7 @@ describe Lazily do
     context "with a buffer bigger than the source Enumerable" do
 
       it "yields all items" do
-        source.lazily.prefetch(20).to_a.should eq(source)
+        expect(source.lazily.prefetch(20).to_a).to eq(source)
       end
 
     end

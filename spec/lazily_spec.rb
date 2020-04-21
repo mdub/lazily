@@ -3,7 +3,7 @@ require "spec_helper"
 describe "Lazily", "method" do
 
   it "returns a lazy proxy" do
-    Lazily([1,2,3]).should be_lazy
+    expect(Lazily([1,2,3])).to be_lazy
   end
 
 end
@@ -11,7 +11,7 @@ end
 describe "Enumerable", "#lazily" do
 
   it "returns a lazy proxy" do
-    [1,2,3].lazily.should be_lazy
+    expect([1,2,3].lazily).to be_lazy
   end
 
 end

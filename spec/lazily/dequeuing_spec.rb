@@ -13,21 +13,21 @@ describe Lazily, "dequeuing" do
       queue << "two"
       queue << "three"
       queue << nil
-      Lazily.dequeue(queue).to_a.should == %w(one two three)
+      expect(Lazily.dequeue(queue).to_a).to eq(%w(one two three))
     end
 
     it "polls the queue" do
-      lambda do
+      expect do
         Timeout.timeout(0.1) do
           Lazily.dequeue(queue).first
         end
-      end.should raise_error(TimeoutError)
+      end.to raise_error(TimeoutError)
     end
 
     it "is lazy" do
       queue << "one"
       Timeout.timeout(0.1) do
-        Lazily.dequeue(queue).first.should eq("one")
+        expect(Lazily.dequeue(queue).first).to eq("one")
       end
     end
 

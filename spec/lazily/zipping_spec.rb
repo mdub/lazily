@@ -10,11 +10,11 @@ describe Lazily, "zipping" do
 
     it "zips together multiple Enumerables" do
       zip = Lazily.zip(array1, array2, array3)
-      zip.to_a.should == array1.zip(array2, array3)
+      expect(zip.to_a).to eq(array1.zip(array2, array3))
     end
 
     it "is lazy" do
-      Lazily.zip(array1, array2.ecetera).should be_lazy
+      expect(Lazily.zip(array1, array2.ecetera)).to be_lazy
     end
 
   end
@@ -23,11 +23,11 @@ describe Lazily, "zipping" do
 
     it "zips an Enumerable with multiple others" do
       zip = array1.lazily.zip(array2, array3)
-      zip.to_a.should == array1.zip(array2, array3)
+      expect(zip.to_a).to eq(array1.zip(array2, array3))
     end
 
     it "is lazy" do
-      array1.lazily.zip(array2.ecetera).should be_lazy
+      expect(array1.lazily.zip(array2.ecetera)).to be_lazy
     end
 
   end
