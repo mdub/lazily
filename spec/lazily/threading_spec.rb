@@ -41,7 +41,10 @@ describe Lazily, "threading" do
 
     it "surfaces exceptions" do
       expect do
-        [1,2,3].lazily.in_threads(5) { raise "hell" }.to_a
+        [1,2,3].lazily.in_threads(5) do 
+          Thread.current.report_on_exception = false if Thread.current.respond_to?(:report_on_exception=)
+          raise "hell" 
+        end.to_a
       end.to raise_error(RuntimeError, "hell")
     end
 
